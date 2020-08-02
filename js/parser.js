@@ -1,51 +1,39 @@
-let data = {
-    "name":"register",
-    "fields":[
-    {
-        "input":{
-            "type":"text",
-            "required":true,
-            "placeholder":"Enter full name"
-        }
-    },
-    {
-        "input":{
-            "type":"email",
-            "required":true,
-            "placeholder":"Enter email"
-        }
-    },
-    {
-        "input":{
-            "type":"password",
-            "required":true,
-            "placeholder":"password"
-        }
-    },
-    {
-        "input":{
-            "type":"password",
-            "required":true,
-            "placeholder":"Confirm password"
-        }
-    }
-    ],
-    "references":[
-        {
-            "text without ref":"Already have account?",
-            "text":"Login",
-            "ref":"signin"
-        }
-    ],
-    "buttons":[
-    {
-        "text":"Sign Up"
-    }
-]
-};
-
-
-
+// let data = {
+//     "name":"login",
+//     "fields":[
+//         {
+//             "label":"Enter your login or email",
+//             "input":{
+//                 "type":"text",
+//                 "required":true,
+//                 "placeholder": "login or email"
+//             }
+//         },
+//         {
+//             "label":"Enter your password",
+//             "input":{
+//                 "type":"password",
+//                 "required":true,
+//                 "placeholder": "password"
+//             }
+//         }
+//     ],
+//     "references":[
+//         {
+//             "text":"Forgot password?",
+//             "ref":"rememberpassword"
+//         },
+//         {
+//             "text":"Create new account",
+//             "ref":"signup"
+//         }
+//     ],
+//     "buttons":[
+//         {
+//             "text":"Login"
+//         }
+//     ]
+// };
 
 
 let app = document.getElementById('app');
@@ -79,7 +67,7 @@ function parseSignup(data,app) {
         for (i in data.fields) {
  
  
-           elem += `<input type="${data.fields[i].input.type}"  
+           elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
                         placeholder="${data.fields[i].input.placeholder}" 
                         ${data.fields[i].input.required == true ? 'required': ''}>`;
 
@@ -107,36 +95,50 @@ function parseSignup(data,app) {
         elem = '';
         for (i in data.references) {
 
-            elem += ` <span>${data.references[i]['text without ref']}</span><a href="${data.references[i].ref}">${data.references[i].text}</a>`;
+            elem += `<span>${data.references[i]['text without ref']}</span>
+                    <a href="${data.references[i].ref}">${data.references[i].text}</a>`;
   
         } 
         
         return elem;
         
     }
-  
+ 
+
+   
 }
 
 
 
-// function doSomething() {
-//     let file = document.getElementById('file'),
-//         reader = new FileReader(),
-//         app = document.getElementById('app');
+function doSomething() {
+    let file = document.getElementById('file'),
+        reader = new FileReader(),
+        app = document.getElementById('app');
 
 
-//     if(file.files.length){
-//         reader.onload = function(){
-//             let data = JSON.parse(reader.result);
+    if(file.files.length){
+        reader.onload = function(){
+            let data = JSON.parse(reader.result);
 
             
-//             console.log(data); // Delete 
+            console.log(data); // Delete 
 
-//             parseSignup(data,app);
+            parseSignup(data,app);
 
-//         };
-//         reader.readAsBinaryString(file.files[0]);
+        };
+        reader.readAsBinaryString(file.files[0]);
 
-//         // file.parentNode.remove(); 
-//     }
+        // file.parentNode.remove(); 
+    }
+}
+
+
+console.log(data);
+
+// function find() {
+//     if (document.body.innerHTML.match("undefined") != null)
+//       console.log('ee')
+//     else
+//     console.log()
 // }
+// find()
