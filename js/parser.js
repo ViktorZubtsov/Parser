@@ -1,63 +1,23 @@
-let data ={
-    "name":"addpost",
-    "fields":[
-    {
-        "label":"Title",
-        "input": {
-            "type":"text",
-            "required": true
-        }
-    },
-    {
-        "label":"Description",
-        "input": {
-            "type":"textarea",
-            "required":true
-        }
-    },
-    {
-        "label":"Image",
-        "input": {
-            "type":"file",
-            "required": true
-        }
-    },
-    {
-        "label":"Publish Date",
-        "input": {
-            "type": "date",
-            "required": true
-        }
-    },
-    {
-        "label": "Author",
-        "input": {
-            "type": "text"
-        }
-    }
-],
-"references":[
-    {
-      "input":{
-        "type":"checkbox",
-        "required":true,
-        "checked":"false"
-      }
-    },
-    {
-        "text without ref":"View Author Post",
-        "text":"View Author Post",
-        "ref":"viewauthor"
-    }
-  ],
-    "buttons":[
-    {
-        "text":"Create Post"
-    }
-]
-}
-
-;
+// let data ={
+//     "name":"website_color_scheme",
+//     "fields":[
+//         {
+//             "label":"Choose color scheme",
+//             "input":{
+//                 "type":"color",
+//                 "colors":["#3366ff","#009933","#990033","#996633"]
+//             }
+//         },
+//         {
+//             "input":{
+//                 "type":"checkbox",
+//                 "checked":"false"
+//             },
+//             "label":"Turn on dark theme?"
+//         }
+//     ]
+// }
+// ;
 
 
 let app = document.getElementById('app');
@@ -65,7 +25,7 @@ let i = '';
 let elem = '';
 
 
-parseSignup(data,app);
+// parseSignup(data,app);
 
 
 function parseSignup(data,app) {
@@ -87,13 +47,16 @@ function parseSignup(data,app) {
     function renderInput(data) {
         let elem = '';
     
-        for (i in data.fields) {
-            let required = data.fields[i].input.required == true ? 'required': '';
+      
+            
             switch (data.name) {
                 case 'addpost':
-                    elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
-                                    ${required}>`;
-    
+                    
+                    for (i in data.fields) {
+                        let required = data.fields[i].input.required == true ? 'required': '';
+                        elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
+                                        ${required}>`;
+                        } 
                     break;     
                 case 'singup':
                     
@@ -102,29 +65,89 @@ function parseSignup(data,app) {
                     ${data.fields[i].input.required == true ? 'required': ''}>`;
     
                     break;
+                case 'website_color_scheme':
+                    
+                    elem += `<label>${data.fields[0].label}</label>
+                                <fieldset>
+                                    <input type="${data.fields[0].input.type}"
+                                        value="${data.fields[0].input.colors[0]}">
 
+
+                                        <input type="${data.fields[0].input.type}"
+                                        value="${data.fields[0].input.colors[1]}">    
+
+            
+                                         <input type="${data.fields[0].input.type}"
+                                         value="${data.fields[0].input.colors[2]}">    
+ 
+            
+                                         <input type="${data.fields[0].input.type}"
+                                         value="${data.fields[0].input.colors[3]}">    
+ 
+
+                                </fieldset>
+                                <label>${data.fields[1].label}</label><input type="${data.fields[1].input.type}" 
+                                ${data.fields[1].input.checked == true ? 'checked': ''}> 
+
+                            `;
+                    break;
+                case 'login':
+
+                    for (i in data.fields) {
+                        elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
+                        placeholder="${data.fields[i].input.placeholder}" 
+                        ${data.fields[i].input.required == true ? 'required': ''}>`;
+                    }
+                    break;
+                case 'register':
+                    for (i in data.fields) {
+
+
+                        elem += `<input type="${data.fields[i].input.type}"  
+                                     placeholder="${data.fields[i].input.placeholder}" 
+                                     ${data.fields[i].input.required == true ? 'required': ''}>`;
+             
+             
+                     } 
+                        break; 
                 default:
                     break;
             }
-        } 
+      
         return elem;
     }
 
 
     function renderReferences(data) {
         elem = '';
-        let required = data.references[i].input.required == true ? 'required': '';
-        let checked = data.references[0].input.checked == true ? 'checked': '';
+
         
             switch (data.name) {
                 case 'addpost':
-        
+                    let required = data.references[0].input.required == true ? 'required': '';
+                    let checked = data.references[0].input.checked == true ? 'checked': '';
+
                         elem += ` <input ${required} type="${data.references[0].input.type}"
                                     checked="${checked}"><a>${data.references[1]['text without ref']}</a>
                                     <a href="${data.references[1].ref}">${data.references[1].text}</a>`;
 
                     break;     
+                case 'website_color_scheme':
+                        elem +='';
+                    break;  
+                case 'login':
+                    for (i in data.references) {
+                    elem += ` <a href="${data.references[i].ref}">${data.references[i].text}</a>`;
+                    }
+                    break; 
+                case 'register':
+                    for (i in data.references) {
 
+                        elem += `<span>${data.references[i]['text without ref']}</span><a 
+                                                 href="${data.references[i].ref}">${data.references[i].text}</a>`;
+            
+                    }
+                    break; 
                 default:
                     break;
 
@@ -142,29 +165,30 @@ function parseSignup(data,app) {
         return elem;
     }
 
+}
 
-// function doSomething() {
-//     let file = document.getElementById('file'),
-//         reader = new FileReader(),
-//         app = document.getElementById('app');
+function doSomething() {
+    let file = document.getElementById('file'),
+        reader = new FileReader(),
+        app = document.getElementById('app');
 
 
-//     if(file.files.length){
+    if(file.files.length){
         
-//         reader.onload = function(){
-//             let data = JSON.parse(reader.result);
+        reader.onload = function(){
+            let data = JSON.parse(reader.result);
 
             
-//             console.log(data); // Delete 
+            console.log(data); // Delete 
 
-//             parseSignup(data,app);
+            parseSignup(data,app);
 
-//         };
-//         reader.readAsBinaryString(file.files[0]);
+        };
+        reader.readAsBinaryString(file.files[0]);
 
-//         // file.parentNode.remove(); 
-//     }
-// }
+        file.parentNode.remove(); 
+    }
+}
 
 
 
@@ -176,4 +200,3 @@ function parseSignup(data,app) {
 //     console.log()
 // }
 // find()
-}
