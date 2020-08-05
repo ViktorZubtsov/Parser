@@ -1,23 +1,4 @@
-// let data ={
-//     "name":"website_color_scheme",
-//     "fields":[
-//         {
-//             "label":"Choose color scheme",
-//             "input":{
-//                 "type":"color",
-//                 "colors":["#3366ff","#009933","#990033","#996633"]
-//             }
-//         },
-//         {
-//             "input":{
-//                 "type":"checkbox",
-//                 "checked":"false"
-//             },
-//             "label":"Turn on dark theme?"
-//         }
-//     ]
-// }
-// ;
+// let data ={};
 
 
 let app = document.getElementById('app');
@@ -110,6 +91,13 @@ function parseSignup(data,app) {
              
                      } 
                         break; 
+                case 'interview':
+                    for (i in data.fields) {
+                        elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}" 
+                        ${data.fields[i].input.required == true ? 'required': ''}>`;
+                    } 
+                    
+                        break; 
                 default:
                     break;
             }
@@ -142,12 +130,19 @@ function parseSignup(data,app) {
                     break; 
                 case 'register':
                     for (i in data.references) {
-
                         elem += `<span>${data.references[i]['text without ref']}</span><a 
                                                  href="${data.references[i].ref}">${data.references[i].text}</a>`;
             
                     }
                     break; 
+                    case 'interview':  
+                    let interviewRequired = data.references[0].input.required == true ? 'required': '';
+                    let interviewChecked = data.references[0].input.checked == true ? 'checked': '';
+                            elem += ` <input ${interviewRequired} type="${data.references[0].input.type}"
+                                checked="${interviewChecked}"><a>${data.references[1]['text without ref']}</a>
+                                <a href="${data.references[1].ref}">${data.references[1].text}</a>`;
+
+                        break; 
                 default:
                     break;
 
@@ -167,6 +162,18 @@ function parseSignup(data,app) {
 
 }
 
+function interview(data) {
+    let fieldset = document.querySelector(".fields");
+    let input =  fieldset.querySelectorAll('input');
+
+    input[0].setAttribute('placeholder', `${data.fields[0].input.placeholder}`);
+    input[2].setAttribute('placeholder', `${data.fields[2].input.placeholder}`);
+    input[5].setAttribute('multiple', `${data.fields[5].input.multiple}`);
+    input[5].setAttribute('technologies', `${data.fields[5].input.technologies}`);
+    input[10].setAttribute('multiple', `${data.fields[10].input.multiple}`);
+    input[10].setAttribute('filetype', `${data.fields[10].input.filetype}`);
+}
+
 function doSomething() {
     let file = document.getElementById('file'),
         reader = new FileReader(),
@@ -177,26 +184,23 @@ function doSomething() {
         
         reader.onload = function(){
             let data = JSON.parse(reader.result);
-
+ 
             
             console.log(data); // Delete 
 
             parseSignup(data,app);
-
+            if (data.name == 'interview') {
+                interview(data);
+                
+            }
         };
         reader.readAsBinaryString(file.files[0]);
 
         file.parentNode.remove(); 
     }
+
 }
 
 
 
 
-// function find() {
-//     if (document.body.innerHTML.match("undefined") != null)
-//       console.log('ee')
-//     else
-//     console.log()
-// }
-// find()
