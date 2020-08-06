@@ -1,4 +1,4 @@
-// let data ={};
+let data ={};
 
 
 let app = document.getElementById('app');
@@ -22,7 +22,10 @@ function parseSignup(data,app) {
             </fieldset>
 
         </form> 
-    `;
+    `
+    
+    ;
+  
 
   
     function renderInput(data) {
@@ -99,6 +102,15 @@ function parseSignup(data,app) {
                     
                         break; 
                 default:
+                    for (i in data.fields) {
+                        let required = data.fields[i].input.required == true ? 'required': '';
+                     
+
+                        elem += `<label>${data.fields[i].label}</label><input 
+                                        class='input' type="${data.fields[i].input.type}" 
+                                        placeholder="${data.fields[i].input.placeholder}"  
+                                        ${required}>`;
+                        } 
                     break;
             }
       
@@ -144,6 +156,9 @@ function parseSignup(data,app) {
 
                         break; 
                 default:
+                    for (i in data.references) {
+                        elem += ` <a href="${data.references[i].ref}">${data.references[i].text}</a>`;
+                        }
                     break;
 
                 
@@ -172,7 +187,14 @@ function interview(data) {
     input[5].setAttribute('technologies', `${data.fields[5].input.technologies}`);
     input[10].setAttribute('multiple', `${data.fields[10].input.multiple}`);
     input[10].setAttribute('filetype', `${data.fields[10].input.filetype}`);
+    input[1].classList.add('mask-phone');
+    input[8].classList.add('number-series');
+    input[9].classList.add('division-code');
+    
+
+    
 }
+
 
 function doSomething() {
     let file = document.getElementById('file'),
@@ -188,19 +210,38 @@ function doSomething() {
             
             console.log(data); // Delete 
 
-            parseSignup(data,app);
+            parseSignup(data,app,);
+            clear();
             if (data.name == 'interview') {
                 interview(data);
+                jQuery(function($){
+                    $('.mask-phone').mask(`${data.fields[1].input.mask}`);
+                    $('.number-series').mask(`${data.fields[8].input.mask}`);
+                    $('.division-code').mask(`${data.fields[9].input.mask}`);
+                    $('undefined').console.log();
+                });
                 
             }
         };
+       
+   
+    
         reader.readAsBinaryString(file.files[0]);
 
         file.parentNode.remove(); 
     }
+    function clear() {
+        let e = app.querySelectorAll('*[placeholder="undefined"]');
+       
+        for (var i = 0; i < e.length; i++) {
+          console.log(e[i].removeAttribute('placeholder'));
+        }
+  
+        
+
+    }
 
 }
-
 
 
 
