@@ -12,7 +12,7 @@
         {
           "label":"Введите Номер телефона",
           "input":{
-              "type":"number",
+              "type":"tell", 
               "required":true,
               "mask": "+7 (999) 99-99-999"
           }
@@ -65,7 +65,7 @@
         {
             "label":"Серия, номер",
             "input":{
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "mask": "99-99 999999"
             }
@@ -73,7 +73,7 @@
         {
             "label":"Код подразделения",
             "input":{
-                "type": "number",
+                "type": "text",
                 "required": true,
                 "mask": "999-999"
             }
