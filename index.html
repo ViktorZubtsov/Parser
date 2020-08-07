@@ -4,17 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/styles.css">
 
     <title>Parser</title>
 </head>
 
 <body>
-    <form name="form_input" enctype="multipart/form-data">
-        <input type="file" name="whocares" id="file" />
-        <button type="button" onclick="doSomething()">Enter</button>
-    </form>
-    <div class="app" id="app" >
+
+    <div class="container" id="app" >
+        <form name="form_input" enctype="multipart/form-data">
+            <input type="file" name="whocares" id="file" />
+            <button type="button" onclick="doSomething()">Enter</button>
+        </form>
 
     </div>
     <script src="./js/jquery-3.5.1.min.js"></script>

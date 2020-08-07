@@ -128,7 +128,7 @@ function parseSignup(data,app) {
                     let checked = data.references[0].input.checked == true ? 'checked': '';
 
                         elem += ` <input ${required} type="${data.references[0].input.type}"
-                                    checked="${checked}"><a>${data.references[1]['text without ref']}</a>
+                        class="check" checked="${checked}"><a>${data.references[1]['text without ref']}</a>
                                     <a href="${data.references[1].ref}">${data.references[1].text}</a>`;
 
                     break;     
@@ -151,7 +151,7 @@ function parseSignup(data,app) {
                     let interviewRequired = data.references[0].input.required == true ? 'required': '';
                     let interviewChecked = data.references[0].input.checked == true ? 'checked': '';
                             elem += ` <input ${interviewRequired} type="${data.references[0].input.type}"
-                                checked="${interviewChecked}"><a>${data.references[1]['text without ref']}</a>
+                            class="check" checked="${interviewChecked}"><a>${data.references[1]['text without ref']}</a>
                                 <a href="${data.references[1].ref}">${data.references[1].text}</a>`;
 
                         break; 
@@ -218,7 +218,6 @@ function doSomething() {
                     $('.mask-phone').mask(`${data.fields[1].input.mask}`);
                     $('.number-series').mask(`${data.fields[8].input.mask}`);
                     $('.division-code').mask(`${data.fields[9].input.mask}`);
-                    $('undefined').console.log();
                 });
                 
             }
