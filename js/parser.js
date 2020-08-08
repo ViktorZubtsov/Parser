@@ -1,246 +1,252 @@
-let data ={};
+let   inputFile = document.getElementById("file"),
+        form = document.getElementById("form"),
+        app = document.getElementById("app"),
+        inputType = {file: "multiple",email: "multiple"},
+        masks = {};
 
 
-let app = document.getElementById('app');
-let i = '';
-let elem = '';
-
-
-// parseSignup(data,app);
-
-
-function parseSignup(data,app) {
-    app.innerHTML = `
-        <form class="r" action="" method="post" >
-            <legend  class="r">${data.name}</legend>
-            <fieldset class="fields">
-                ${renderInput(data)}
-            </fieldset>
-            <fieldset  class="send">
-                ${renderButtons(data)}
-                ${renderReferences(data)}
-            </fieldset>
-
-        </form> 
-    `
+function parser(File) {
+    if (!File) {return;}
     
-    ;
-  
+    let reader = new FileReader(),
+        json;
 
-  
-    function renderInput(data) {
-        let elem = '';
+    reader.readAsText(File);
+    reader.onload = function() {
+        json = reader.result;
+        renderForm(JSON.parse(json));
+       
+    };
     
-      
-            
-            switch (data.name) {
-                case 'addpost':
-                    
-                    for (i in data.fields) {
-                        let required = data.fields[i].input.required == true ? 'required': '';
-                        elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
-                                        ${required}>`;
-                        } 
-                    break;     
-                case 'singup':
-                    
-                    elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
-                    placeholder="${data.fields[i].input.placeholder}"
-                    ${data.fields[i].input.required == true ? 'required': ''}>`;
-    
-                    break;
-                case 'website_color_scheme':
-                    
-                    elem += `<label>${data.fields[0].label}</label>
-                                <fieldset>
-                                    <input type="${data.fields[0].input.type}"
-                                        value="${data.fields[0].input.colors[0]}">
-
-
-                                        <input type="${data.fields[0].input.type}"
-                                        value="${data.fields[0].input.colors[1]}">    
-
-            
-                                         <input type="${data.fields[0].input.type}"
-                                         value="${data.fields[0].input.colors[2]}">    
- 
-            
-                                         <input type="${data.fields[0].input.type}"
-                                         value="${data.fields[0].input.colors[3]}">    
- 
-
-                                </fieldset>
-                                <label>${data.fields[1].label}</label><input type="${data.fields[1].input.type}" 
-                                ${data.fields[1].input.checked == true ? 'checked': ''}> 
-
-                            `;
-                    break;
-                case 'login':
-
-                    for (i in data.fields) {
-                        elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}"  
-                        placeholder="${data.fields[i].input.placeholder}" 
-                        ${data.fields[i].input.required == true ? 'required': ''}>`;
-                    }
-                    break;
-                case 'register':
-                    for (i in data.fields) {
-
-
-                        elem += `<input type="${data.fields[i].input.type}"  
-                                     placeholder="${data.fields[i].input.placeholder}" 
-                                     ${data.fields[i].input.required == true ? 'required': ''}>`;
-             
-             
-                     } 
-                        break; 
-                case 'interview':
-                    for (i in data.fields) {
-                        elem += `<label>${data.fields[i].label}</label><input type="${data.fields[i].input.type}" 
-                        ${data.fields[i].input.required == true ? 'required': ''}>`;
-                    } 
-                    
-                        break; 
-                default:
-                    for (i in data.fields) {
-                        let required = data.fields[i].input.required == true ? 'required': '';
-                     
-
-                        elem += `<label>${data.fields[i].label}</label><input 
-                                        class='input' type="${data.fields[i].input.type}" 
-                                        placeholder="${data.fields[i].input.placeholder}"  
-                                        ${required}>`;
-                        } 
-                    break;
-            }
-      
-        return elem;
-    }
-
-
-    function renderReferences(data) {
-        elem = '';
-
-        
-            switch (data.name) {
-                case 'addpost':
-                    let required = data.references[0].input.required == true ? 'required': '';
-                    let checked = data.references[0].input.checked == true ? 'checked': '';
-
-                        elem += ` <input ${required} type="${data.references[0].input.type}"
-                        class="check" checked="${checked}"><a>${data.references[1]['text without ref']}</a>
-                                    <a href="${data.references[1].ref}">${data.references[1].text}</a>`;
-
-                    break;     
-                case 'website_color_scheme':
-                        elem +='';
-                    break;  
-                case 'login':
-                    for (i in data.references) {
-                    elem += ` <a href="${data.references[i].ref}">${data.references[i].text}</a>`;
-                    }
-                    break; 
-                case 'register':
-                    for (i in data.references) {
-                        elem += `<span>${data.references[i]['text without ref']}</span><a 
-                                                 href="${data.references[i].ref}">${data.references[i].text}</a>`;
-            
-                    }
-                    break; 
-                    case 'interview':  
-                    let interviewRequired = data.references[0].input.required == true ? 'required': '';
-                    let interviewChecked = data.references[0].input.checked == true ? 'checked': '';
-                            elem += ` <input ${interviewRequired} type="${data.references[0].input.type}"
-                            class="check" checked="${interviewChecked}"><a>${data.references[1]['text without ref']}</a>
-                                <a href="${data.references[1].ref}">${data.references[1].text}</a>`;
-
-                        break; 
-                default:
-                    for (i in data.references) {
-                        elem += ` <a href="${data.references[i].ref}">${data.references[i].text}</a>`;
-                        }
-                    break;
-
-                
-            } 
-        
-        return elem; 
-
-    }
-
-    function renderButtons(data) {      
-        for (i in data.buttons) {
-            elem += ` <button>${data.buttons[i].text}</button>`;            
-        } 
-        return elem;
-    }
-
+    app.firstElementChild.remove(); 
 }
 
-function interview(data) {
-    let fieldset = document.querySelector(".fields");
-    let input =  fieldset.querySelectorAll('input');
+function renderForm(data) {
+    form.innerHTML = "";
+    masks = {};
 
-    input[0].setAttribute('placeholder', `${data.fields[0].input.placeholder}`);
-    input[2].setAttribute('placeholder', `${data.fields[2].input.placeholder}`);
-    input[5].setAttribute('multiple', `${data.fields[5].input.multiple}`);
-    input[5].setAttribute('technologies', `${data.fields[5].input.technologies}`);
-    input[10].setAttribute('multiple', `${data.fields[10].input.multiple}`);
-    input[10].setAttribute('filetype', `${data.fields[10].input.filetype}`);
-    input[1].classList.add('mask-phone');
-    input[8].classList.add('number-series');
-    input[9].classList.add('division-code');
-    
-
-    
-}
-
-
-function doSomething() {
-    let file = document.getElementById('file'),
-        reader = new FileReader(),
-        app = document.getElementById('app');
-
-
-    if(file.files.length){
-        
-        reader.onload = function(){
-            let data = JSON.parse(reader.result);
- 
-            
-            console.log(data); // Delete 
-
-            parseSignup(data,app,);
-            clear();
-            if (data.name == 'interview') {
-                interview(data);
-                jQuery(function($){
-                    $('.mask-phone').mask(`${data.fields[1].input.mask}`);
-                    $('.number-series').mask(`${data.fields[8].input.mask}`);
-                    $('.division-code').mask(`${data.fields[9].input.mask}`);
-                });
-                
-            }
-        };
-       
-   
-    
-        reader.readAsBinaryString(file.files[0]);
-
-        file.parentNode.remove(); 
-    }
-    function clear() {
-        let e = app.querySelectorAll('*[placeholder="undefined"]');
-       
-        for (var i = 0; i < e.length; i++) {
-          console.log(e[i].removeAttribute('placeholder'));
+    Object.keys(data).map(a => {
+        switch (a) {
+            case "name":
+                renderlegend(data[a]);
+                break;
+            case "fields":
+                renderFields(data[a]);
+                break;
+            case "references":
+                renderRefs(data[a]);
+                break;
+            case "buttons": 
+                renderButtons(data[a]);
+                break;
         }
-  
-        
+    });
+    console.log(data);
 
+    function renderlegend(name) {
+        let legend = document.createElement('legend');
+
+        name = name[0].toUpperCase() + name.slice(1);
+        name = name.replace(/_/g, " ");
+        
+        legend.innerHTML = name;
+        form.appendChild(legend);
     }
 
+
+    function renderFields (fields) {
+        let id = 0;
+
+        fields.map(obj => {
+            let {label, input} = obj,
+                oneField;
+
+            if (label) {
+                oneField = document.createElement('label');
+                oneField.setAttribute('for', id);
+                oneField.innerHTML = label;
+                form.appendChild(oneField);
+            }
+
+            if (input) {
+                oneField = renderInput(input, id);
+                form.appendChild(oneField);
+            }
+            id++;
+
+        });
+    if (Object.keys(masks).length) {renderMasks();}
+    }
+
+
+
+
+
+    function renderInput(input, id) {
+        if (input.multiple && !(inputType[input.type] === "multiple")) {
+            delete input.type;
+            return renderSelect(input, id);
+        }  
+    
+        if (input.type === "textarea") {
+            delete input.type;
+            return renderTextarea(input, id);
+    
+        } else if (input.type === "file") {
+            return renderInputFile(input, id);
+        }
+    
+        let inputField = document.createElement('input');
+            inputField.setAttribute('id', id);
+    
+        for (let attribute in input) {
+            
+            if (Array.isArray(input[attribute])) {
+                inputField.setAttribute('list', attribute);
+                renderDataList(attribute, input[attribute]);
+    
+            } else if (attribute === 'mask') {
+                inputField.setAttribute('type', 'text');
+                inputField.setAttribute('placeholder', input[attribute]);
+                masks[id] = `${input[attribute]}`;
+                
+            } else if (input[attribute] === true) {inputField.setAttribute(attribute, '');}
+            else if (input[attribute] !== 'false') {inputField.setAttribute(`${attribute}`, input[attribute]);}
+        }
+        return inputField;
+    
+    }
+    
+    
+    function renderInputFile(input, id) {
+        
+        let oneField = document.createElement('label');
+            oneField.setAttribute('for', id);
+
+        oneField.innerHTML = 'Загрузить файл';
+        form.appendChild(oneField);
+    
+        let inputFileField = document.createElement('input');
+            inputFileField.setAttribute('id', id);
+    
+        for (let attribute in input) {
+            
+            if (attribute === "filetype") {
+                let strAccept = "";
+                input[attribute].map(type   => strAccept += "." + type + ", ");
+                inputFileField.setAttribute('accept', strAccept.slice(0, -2));
+    
+            } else if (input[attribute] === true) {inputFileField.setAttribute(attribute, '');}
+            else if (input[attribute] !== 'false'){ inputFileField.setAttribute(`${attribute}`, input[attribute]);}
+        }
+        return inputFileField;
+    
+    }
+    
+    function renderSelect(input, id) {
+        let selectField = document.createElement('select');
+            selectField.setAttribute('id', id);
+    
+        for (let attribute in input) {
+    
+            if (Array.isArray(input[attribute])) {
+                input[attribute].map(opt => {
+                    let option = document.createElement('option');
+                    option.setAttribute('value', opt);
+                    option.innerHTML = opt;
+                    selectField.appendChild(option);
+                });
+    
+            } else if (input[attribute] === true) {selectField.setAttribute(attribute, '');}
+            else if (input[attribute] !== 'false') {selectField.setAttribute(`${attribute}`, input[attribute]);}
+        }
+        return selectField;
+    }
+    
+    function renderTextarea(input, id) {
+        let textField = document.createElement('textarea');
+            textField.setAttribute('id', id);
+        for (let attribute in input) {
+            
+            if (input[attribute] === true) {textField.setAttribute(attribute, '');}
+            else if (input[attribute] !== 'false') {textField.setAttribute(`${attribute}`, input[attribute]);}
+        }
+        return textField;
+    }
+    
+    function renderDataList(attribute, options) {
+        let dataList = document.createElement('datalist');
+            dataList.setAttribute('id', attribute);
+            form.appendChild(dataList);
+    
+        options.map (value => {
+            let option = document.createElement('option');
+            option.setAttribute('value', value);
+            dataList.appendChild(option);
+        });
+    }
+    
+    function renderMasks() {
+        for (let id in masks) {
+            $(`#${id}`).mask(`${masks[id]}`);
+        }
+    }
+    
+    function renderRefs(refs) {
+        let id = 1000;
+    
+        refs.map(ref => {
+            if (refs[0].input) {
+                if (ref.input) {
+                    let wrap = document.createElement('fieldset');
+                        wrap.setAttribute('class', 'check');
+                        wrap.setAttribute('id', 'check');
+                        form.appendChild(wrap);
+    
+                    let inputField = renderInput(ref.input, id);
+                        wrap.appendChild(inputField);
+                } else {
+                    renderLink(ref, "check");
+                }
+            } else {
+                renderLink(ref);
+            }
+        });
+    }
+    
+    function renderLink(ref, wrapID) {
+        let {text, ref: link} = ref,
+            textWithoutRef = ref['text without ref'],
+            wrapRef = document.createElement('fieldset');
+            wrapRef.setAttribute('class', 'send');
+    
+        if (wrapID) {
+            const wrap = document.getElementById(wrapID);
+            wrap.appendChild(wrapRef);
+        } else {
+            form.appendChild(wrapRef);
+        }
+        
+        if (textWithoutRef) {
+            let textField = document.createElement('span');
+                textField.innerHTML = textWithoutRef;
+                wrapRef.appendChild(textField);
+        }    
+    
+        let linkField = document.createElement('a');
+            linkField.setAttribute('href', link);
+            linkField.innerHTML = text;
+            wrapRef.appendChild(linkField);
+    }
+    
+    function renderButtons(buttons) {
+        let wrap = document.createElement('fieldset');
+            form.appendChild(wrap);
+    
+        buttons.map(but => {
+            let buttonTag = document.createElement('button');
+                buttonTag.innerHTML = but.text;
+                wrap.appendChild(buttonTag);
+        });
+    }
 }
-
-
-
